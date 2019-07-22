@@ -1,35 +1,32 @@
 # Documentation: https://docs.brew.sh/Formula-Cookbook
 #                https://rubydoc.brew.sh/Formula
 # PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!
-class AppveyorServer < Formula
-  desc "Appveyor Server. Continuous Integration solution for Windows and Linux and Mac"
+class AppveyorHostAgent < Formula
+  desc "Appveyor Host Agent. Continuous Integration solution for Windows and Linux and Mac"
   homepage "https://www.appveyor.com"
-  url "https://www.appveyor.com/downloads/appveyor-server/7.0/macos/appveyor-server-macos-x64.tar.gz"
-  sha256 "38a2f57287e7ac92484cdb6fb351dacee970df604c36ddce8fbc879af3c3374c"
+  url "https://www.appveyor.com/downloads/appveyor-host-agent/7.0/macos/appveyor-host-agent-macos-x64.tar.gz"
+  sha256 "83f7359ed482e073217e34141dd9ebe05380d6c45b5cb39e9af3076442400588"
 
   def install
     # copy all files
     cp_r ".", prefix.to_s
 
     # tune config file
-    o = [('a'..'z'), ('A'..'Z'), ('0'..'9')].map(&:to_a).flatten
-    master_key = (0...16).map { o[rand(o.length)] }.join
-    master_key_salt = (0...16).map { o[rand(o.length)] }.join
-    inreplace "appsettings.server.linux.json" do |appsettings|
-      appsettings.gsub! /\[MASTER_KEY\]/, "#{master_key}"
-      appsettings.gsub! /\[MASTER_KEY_SALT\]/, "#{master_key_salt}"
-      appsettings.gsub! /\[HTTP_PORT\]/, "8080"
-      appsettings.gsub! /\[HTTPS_PORT\]/, "443"
-      #TODO rewrite with json parser
-      appsettings.gsub! /\"DataDir\":.*/, "\"DataDir\": \"#{var}/appveyor/server\","
-    end
-    mv "appsettings.server.linux.json", "appsettings.json"
-    (etc/"opt/appveyor/server").install "appsettings.json"
+    # inreplace "appsettings.json", /\[APPVEYOR_URL\]/, "https://ci.appveyor.com"
+    # inreplace "appsettings.json", /\[HOST_AUTH_TOKEN\]/, ""
+    (etc/"opt/appveyor/host-agent").install "appsettings.json"
   end
 
   def post_install
     # Make sure runtime directories exist
-    (var/"appveyor/server/artifacts").mkpath
+    (var/"appveyor/host-agent").mkpath
+  end
+
+  def caveats; <<~EOS
+    Edit /usr/local/etc/opt/appveyor/host-agent/appsettings.json:
+      replace APPVEYOR_URL with correct url (Use "https://ci.appveyor.com" for hosted)
+      replace HOST_AUTH_TOKEN with correct Host Auth Token.
+  EOS
   end
 
   plist_options :startup => true
@@ -45,14 +42,14 @@ class AppveyorServer < Formula
           <key>Label</key>
           <string>#{plist_name}</string>
           <key>Program</key>
-          <string>#{prefix}/appveyor-server</string>
+          <string>#{prefix}/appveyor-host-agent</string>
           <key>ProgramArguments</key>
           <array>
           </array>
           <key>RunAtLoad</key>
           <true/>
           <key>WorkingDirectory</key>
-          <string>#{var}/appveyor/server/</string>
+          <string>#{var}/appveyor/host-agent/</string>
         </dict>
       </plist>
     EOS
