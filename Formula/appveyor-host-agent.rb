@@ -5,15 +5,22 @@ class AppveyorHostAgent < Formula
   desc "Appveyor Host Agent. Continuous Integration solution for Windows and Linux and Mac"
   homepage "https://www.appveyor.com"
   url "https://www.appveyor.com/downloads/appveyor-host-agent/7.0/macos/appveyor-host-agent-macos-x64.tar.gz"
-  sha256 "83f7359ed482e073217e34141dd9ebe05380d6c45b5cb39e9af3076442400588"
+  # sha256 "83f7359ed482e073217e34141dd9ebe05380d6c45b5cb39e9af3076442400588"
 
   def install
     # copy all files
     cp_r ".", prefix.to_s
 
     # tune config file
-    # inreplace "appsettings.json", /\[APPVEYOR_URL\]/, "https://ci.appveyor.com"
-    # inreplace "appsettings.json", /\[HOST_AUTH_TOKEN\]/, ""
+    unless ENV.key?("HOMEBREW_APPEYOR_URL")
+      opoo "HOMEBREW_APPEYOR_URL variable not set. Will use default value 'https://ci.appveyor.com'"
+      ENV["HOMEBREW_APPEYOR_URL"] = "https://ci.appveyor.com"
+    end
+    inreplace "appsettings.json", /\[APPVEYOR_URL\]/, ENV["HOMEBREW_APPEYOR_URL"]
+
+    if ENV.key?("HOMEBREW_HOST_AUTH_TKN")
+      inreplace "appsettings.json", /\[HOST_AUTH_TOKEN\]/, ENV["HOMEBREW_HOST_AUTH_TKN"]
+    end
     (etc/"opt/appveyor/host-agent").install "appsettings.json"
   end
 
@@ -23,11 +30,10 @@ class AppveyorHostAgent < Formula
   end
 
   def caveats; <<~EOS
-    Edit /usr/local/etc/opt/appveyor/host-agent/appsettings.json:
-      replace APPVEYOR_URL with correct url (Use "https://ci.appveyor.com" for hosted)
+    Edit #{etc}/opt/appveyor/host-agent/appsettings.json:
       replace HOST_AUTH_TOKEN with correct Host Auth Token.
   EOS
-  end
+  end unless ENV.key?("HOMEBREW_HOST_AUTH_TKN")
 
   plist_options :startup => true
 

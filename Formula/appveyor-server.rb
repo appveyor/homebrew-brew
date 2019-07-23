@@ -5,7 +5,7 @@ class AppveyorServer < Formula
   desc "Appveyor Server. Continuous Integration solution for Windows and Linux and Mac"
   homepage "https://www.appveyor.com"
   url "https://www.appveyor.com/downloads/appveyor-server/7.0/macos/appveyor-server-macos-x64.tar.gz"
-  sha256 "38a2f57287e7ac92484cdb6fb351dacee970df604c36ddce8fbc879af3c3374c"
+  # sha256 "38a2f57287e7ac92484cdb6fb351dacee970df604c36ddce8fbc879af3c3374c"
 
   def install
     # copy all files
