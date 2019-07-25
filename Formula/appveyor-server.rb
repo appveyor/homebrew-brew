@@ -1,6 +1,3 @@
-# Documentation: https://docs.brew.sh/Formula-Cookbook
-#                https://rubydoc.brew.sh/Formula
-# PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!
 class AppveyorServer < Formula
   desc "Appveyor Server. Continuous Integration solution for Windows and Linux and Mac"
   homepage "https://www.appveyor.com"
@@ -53,6 +50,10 @@ class AppveyorServer < Formula
           <true/>
           <key>WorkingDirectory</key>
           <string>#{var}/appveyor/server/</string>
+          <key>StandardErrorPath</key>
+          <string>#{var}/appveyor/server/server.stderr.log</string>
+          <key>StandardOutPath</key>
+          <string>#{var}/appveyor/server/server.stdout.log</string>
         </dict>
       </plist>
     EOS

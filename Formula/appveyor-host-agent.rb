@@ -1,6 +1,3 @@
-# Documentation: https://docs.brew.sh/Formula-Cookbook
-#                https://rubydoc.brew.sh/Formula
-# PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!
 class AppveyorHostAgent < Formula
   desc "Appveyor Host Agent. Continuous Integration solution for Windows and Linux and Mac"
   homepage "https://www.appveyor.com"
@@ -16,7 +13,10 @@ class AppveyorHostAgent < Formula
       opoo "HOMEBREW_APPEYOR_URL variable not set. Will use default value 'https://ci.appveyor.com'"
       ENV["HOMEBREW_APPEYOR_URL"] = "https://ci.appveyor.com"
     end
-    inreplace "appsettings.json", /\[APPVEYOR_URL\]/, ENV["HOMEBREW_APPEYOR_URL"]
+    inreplace "appsettings.json" do |appsettings|
+      appsettings.gsub! /\[APPVEYOR_URL\]/, ENV["HOMEBREW_APPEYOR_URL"]
+      appsettings.gsub! /\"DataDir\":.*/, "\"DataDir\": \"#{var}/appveyor/host-agent\","
+    end
 
     if ENV.key?("HOMEBREW_HOST_AUTH_TKN")
       inreplace "appsettings.json", /\[HOST_AUTH_TOKEN\]/, ENV["HOMEBREW_HOST_AUTH_TKN"]
@@ -35,7 +35,7 @@ class AppveyorHostAgent < Formula
   EOS
   end unless ENV.key?("HOMEBREW_HOST_AUTH_TKN")
 
-  plist_options :startup => true
+  plist_options :startup => false
 
   def plist
     <<~EOS
@@ -56,6 +56,10 @@ class AppveyorHostAgent < Formula
           <true/>
           <key>WorkingDirectory</key>
           <string>#{var}/appveyor/host-agent/</string>
+          <key>StandardErrorPath</key>
+          <string>#{var}/appveyor/host-agent/host-agent.stderr.log</string>
+          <key>StandardOutPath</key>
+          <string>#{var}/appveyor/host-agent/host-agent.stdout.log</string>
         </dict>
       </plist>
     EOS
