@@ -29,11 +29,20 @@ class AppveyorHostAgent < Formula
     (var/"appveyor/host-agent").mkpath
   end
 
-  def caveats; <<~EOS
+  def no_token_caveat; <<~EOS_TKN
     Edit #{etc}/opt/appveyor/host-agent/appsettings.json:
       replace HOST_AUTH_TOKEN with correct Host Auth Token.
-  EOS
-  end unless ENV.key?("HOMEBREW_HOST_AUTH_TKN")
+  EOS_TKN
+  end
+
+  def caveats
+    <<~EOS
+      Configuration file is #{etc}/opt/appveyor/host-agent/appsettings.json
+      Database will be stored in #{var}/appveyor/host-agent/
+    EOS
+    no_token_caveat unless ENV.key?("HOMEBREW_HOST_AUTH_TKN")
+  end
+
 
   plist_options :startup => false
 

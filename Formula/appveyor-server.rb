@@ -31,6 +31,12 @@ class AppveyorServer < Formula
 
   plist_options :startup => true
 
+  def caveats; <<~EOS
+    Configuration file is #{etc}/opt/appveyor/server/appsettings.json
+    Artifacts will be stored in #{var}/appveyor/server/artifacts
+  EOS
+  end
+
   def plist
     <<~EOS
       <?xml version="1.0" encoding="UTF-8"?>
