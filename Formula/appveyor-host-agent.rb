@@ -1,5 +1,5 @@
 class AppveyorHostAgent < Formula
-  desc "Appveyor Host Agent. Continuous Integration solution for Windows and Linux and Mac"
+  desc "AppVeyor Host Agent - runs AppVeyor builds on your server."
   homepage "https://www.appveyor.com"
   url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.2324/appveyor-host-agent-7.0.2324-macos-x64.tar.gz"
   version "7.0.2324"

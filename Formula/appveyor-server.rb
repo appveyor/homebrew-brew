@@ -1,5 +1,5 @@
 class AppveyorServer < Formula
-  desc "Appveyor Server. Continuous Integration solution for Windows and Linux and Mac"
+  desc "AppVeyor Server - Continuous Integration solution for Windows, Linux and Mac."
   homepage "https://www.appveyor.com"
   url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.2324/appveyor-server-7.0.2324-macos-x64.tar.gz"
   version "7.0.2324"
@@ -16,8 +16,8 @@ class AppveyorServer < Formula
     inreplace "appsettings.server.linux.json" do |appsettings|
       appsettings.gsub! /\[MASTER_KEY\]/, "#{master_key}"
       appsettings.gsub! /\[MASTER_KEY_SALT\]/, "#{master_key_salt}"
-      appsettings.gsub! /\[HTTP_PORT\]/, "8080"
-      appsettings.gsub! /\[HTTPS_PORT\]/, "443"
+      appsettings.gsub! /\[HTTP_PORT\]/, "8050"
+      appsettings.gsub! /\[HTTPS_PORT\]/, "8051"
       #TODO rewrite with json parser
       appsettings.gsub! /\"DataDir\":.*/, "\"DataDir\": \"#{var}/appveyor/server\","
     end
