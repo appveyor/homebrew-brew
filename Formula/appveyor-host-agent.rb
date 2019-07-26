@@ -1,8 +1,9 @@
 class AppveyorHostAgent < Formula
   desc "Appveyor Host Agent. Continuous Integration solution for Windows and Linux and Mac"
   homepage "https://www.appveyor.com"
-  url "https://www.appveyor.com/downloads/appveyor-host-agent/7.0/macos/appveyor-host-agent-macos-x64.tar.gz"
-  # sha256 "83f7359ed482e073217e34141dd9ebe05380d6c45b5cb39e9af3076442400588"
+  url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.2324/appveyor-host-agent-7.0.2324-macos-x64.tar.gz"
+  version "7.0.2324"
+  sha256 "a936475406d64e695843de02db99125968d3dd5b96d509d2afb762b50f080a7d"
 
   def install
     # copy all files
