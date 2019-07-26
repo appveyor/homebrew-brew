@@ -1,9 +1,9 @@
 class AppveyorHostAgent < Formula
   desc "AppVeyor Host Agent - runs AppVeyor builds on your server."
   homepage "https://www.appveyor.com"
-  url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.2324/appveyor-host-agent-7.0.2324-macos-x64.tar.gz"
-  version "7.0.2324"
-  sha256 "a936475406d64e695843de02db99125968d3dd5b96d509d2afb762b50f080a7d"
+  url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.2326/appveyor-host-agent-7.0.2326-macos-x64.tar.gz"
+  version "7.0.2326"
+  sha256 "53995af3c9bb89f0e32aebcfc0388e73fde34b814672c8b0cdb3e55ec6854a0c"
 
   def install
     # copy all files
@@ -38,7 +38,11 @@ class AppveyorHostAgent < Formula
 
   def caveats
     <<~EOS
-      Configuration file is #{etc}/opt/appveyor/host-agent/appsettings.json
+      Start AppVeyor Host Agent with:
+
+          brew services start appveyor-host-agent
+
+      AppVeyor Host Agent configuration file: #{etc}/opt/appveyor/host-agent/appsettings.json
       Database will be stored in #{var}/appveyor/host-agent/
     EOS
     no_token_caveat unless ENV.key?("HOMEBREW_HOST_AUTH_TKN")

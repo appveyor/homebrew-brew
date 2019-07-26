@@ -1,9 +1,9 @@
 class AppveyorServer < Formula
   desc "AppVeyor Server - Continuous Integration solution for Windows, Linux and Mac."
   homepage "https://www.appveyor.com"
-  url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.2324/appveyor-server-7.0.2324-macos-x64.tar.gz"
-  version "7.0.2324"
-  sha256 "e3a0f2853d4dcd1bf3443d94a8149e62e52c3d31dfa06d594b136404d4a70982"
+  url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.2326/appveyor-server-7.0.2326-macos-x64.tar.gz"
+  version "7.0.2326"
+  sha256 "724505c8287de08fe6b5da143e01a8c86dd1f4f1780517561def5f14ca2274f6"
 
   def install
     # copy all files
@@ -13,7 +13,7 @@ class AppveyorServer < Formula
     o = [('a'..'z'), ('A'..'Z'), ('0'..'9')].map(&:to_a).flatten
     master_key = (0...16).map { o[rand(o.length)] }.join
     master_key_salt = (0...16).map { o[rand(o.length)] }.join
-    inreplace "appsettings.server.linux.json" do |appsettings|
+    inreplace "appsettings.server.macos.json" do |appsettings|
       appsettings.gsub! /\[MASTER_KEY\]/, "#{master_key}"
       appsettings.gsub! /\[MASTER_KEY_SALT\]/, "#{master_key_salt}"
       appsettings.gsub! /\[HTTP_PORT\]/, "8050"
@@ -21,7 +21,7 @@ class AppveyorServer < Formula
       #TODO rewrite with json parser
       appsettings.gsub! /\"DataDir\":.*/, "\"DataDir\": \"#{var}/appveyor/server\","
     end
-    mv "appsettings.server.linux.json", "appsettings.json"
+    mv "appsettings.server.macos.json", "appsettings.json"
     (etc/"opt/appveyor/server").install "appsettings.json"
   end
 
@@ -33,8 +33,14 @@ class AppveyorServer < Formula
   plist_options :startup => true
 
   def caveats; <<~EOS
-    Configuration file is #{etc}/opt/appveyor/server/appsettings.json
-    Artifacts will be stored in #{var}/appveyor/server/artifacts
+    Start AppVeyor Server with:
+
+        brew services start appveyor-server
+
+    Open http://localhost:8050 in your browser to continue with AppVeyor setup.
+
+    AppVeyor Server configuration file is #{etc}/opt/appveyor/server/appsettings.json
+    Build artifacts will be stored in #{var}/appveyor/server/artifacts
   EOS
   end
 
