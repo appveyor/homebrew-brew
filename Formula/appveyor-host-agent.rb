@@ -20,7 +20,7 @@ class AppveyorHostAgent < Formula
     end
 
     if ENV.key?("HOMEBREW_HOST_AUTH_TKN")
-      inreplace "appsettings.json", /\[HOST_AUTH_TOKEN\]/, ENV["HOMEBREW_HOST_AUTH_TKN"]
+      inreplace "appsettings.json", /\[AUTHORIZATION_TOKEN\]/, ENV["HOMEBREW_HOST_AUTH_TKN"]
     end
     (etc/"opt/appveyor/host-agent").install "appsettings.json"
   end
