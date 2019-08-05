@@ -10,12 +10,12 @@ class AppveyorHostAgent < Formula
     cp_r ".", prefix.to_s
 
     # tune config file
-    unless ENV.key?("HOMEBREW_APPEYOR_URL")
-      opoo "HOMEBREW_APPEYOR_URL variable not set. Will use default value 'https://ci.appveyor.com'"
-      ENV["HOMEBREW_APPEYOR_URL"] = "https://ci.appveyor.com"
+    unless ENV.key?("HOMEBREW_APPVEYOR_URL")
+      opoo "HOMEBREW_APPVEYOR_URL variable not set. Will use default value 'https://ci.appveyor.com'"
+      ENV["HOMEBREW_APPVEYOR_URL"] = "https://ci.appveyor.com"
     end
     inreplace "appsettings.json" do |appsettings|
-      appsettings.gsub! /\[APPVEYOR_URL\]/, ENV["HOMEBREW_APPEYOR_URL"]
+      appsettings.gsub! /\[APPVEYOR_URL\]/, ENV["HOMEBREW_APPVEYOR_URL"]
       appsettings.gsub! /\"DataDir\":.*/, "\"DataDir\": \"#{var}/appveyor/host-agent\","
     end
 
