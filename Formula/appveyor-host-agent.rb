@@ -3,7 +3,7 @@ class AppveyorHostAgent < Formula
   homepage "https://www.appveyor.com"
   url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.2353/appveyor-host-agent-7.0.2353-macos-x64.tar.gz"
   version "7.0.2353"
-  sha256 "fbc2ce7b8bfa1b9bd38c7deb3d71e25e22817786b6dabcf11a84e25ccf25aee8"
+  sha256 "08fd455bbd04e54e7badf0009d926ba05c2ea7c02c557b1d6d8eef8f831343db"
 
   def install
     # copy all files
