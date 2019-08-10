@@ -3,7 +3,7 @@ class AppveyorServer < Formula
   homepage "https://www.appveyor.com"
   url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.2353/appveyor-server-7.0.2353-macos-x64.tar.gz"
   version "7.0.2353"
-  sha256 "a65497159493c66dbf163474d66cc6339d88496515b0b163e584085624ec6a8d"
+  sha256 "7a4588b3214e05ddb75d6f2f7f8819624bd4265676b268c7ea6a439b251066d2"
 
   def install
     # copy all files
