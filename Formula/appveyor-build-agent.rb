@@ -1,17 +1,17 @@
 class AppveyorBuildAgent < Formula
   desc "AppVeyor Build Agent - runs AppVeyor build on your server."
   homepage "https://www.appveyor.com"
-  url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.2429/appveyor-build-agent-7.0.2429-macos-x64.tar.gz"
-  version "7.0.2429"
-  sha256 "6441552a4863008335f1be5619b2ea5ec9beafc444d22a0f2bb073ac3b0768ba"
+  url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.2449/appveyor-build-agent-7.0.2449-macos-x64.tar.gz"
+  version "7.0.2449"
+  sha256 "b07f49076588775fe63a2d5ce62f2c331f76c2bb3f9596b4f3aec1e72d2c7d13"
 
   def install
     # tune config file
-    unless ENV.key?("BUILD_AGENT_MODE")
-      opoo "BUILD_AGENT_MODE variable not set. Will use default value 'Process'"
-      ENV["BUILD_AGENT_MODE"] = "Process"
+    unless ENV.key?("HOMEBREW_BUILD_AGENT_MODE")
+      opoo "HOMEBREW_BUILD_AGENT_MODE variable not set. Will use default value 'Process'"
+      ENV["HOMEBREW_BUILD_AGENT_MODE"] = "Process"
     end
-    inreplace "appsettings.json", /\"Mode\": \"Process\"/, "\"Mode\": \"#{ENV["BUILD_AGENT_MODE"]}\""
+    inreplace "appsettings.json", /\"Mode\": \"Process\"/, "\"Mode\": \"#{ENV["HOMEBREW_BUILD_AGENT_MODE"]}\""
 
     # copy all files
     cp_r ".", prefix.to_s
@@ -21,7 +21,7 @@ class AppveyorBuildAgent < Formula
     <<~EOS
       Start AppVeyor Build Agent with:
 
-          brew services start appveyor-build-agent
+          sudo brew services start appveyor-build-agent
 
       AppVeyor Build Agent configuration file: #{prefix}/appsettings.json
     EOS
@@ -48,11 +48,15 @@ class AppveyorBuildAgent < Formula
           <key>RunAtLoad</key>
           <true/>
           <key>WorkingDirectory</key>
-          <string>#{var}/appveyor/build-agent/</string>
+          <string>#{prefix}</string>
           <key>StandardErrorPath</key>
-          <string>#{var}/appveyor/build-agent/build-agent.stderr.log</string>
+          <string>#{prefix}/build-agent.stderr.log</string>
           <key>StandardOutPath</key>
-          <string>#{var}/appveyor/build-agent/build-agent.stdout.log</string>
+          <string>#{prefix}/build-agent.stdout.log</string>
+          <key>UserName</key>
+          <string>appveyor</string>
+          <key>GroupName</key>
+          <string>staff</string>
         </dict>
       </plist>
     EOS
