@@ -53,10 +53,6 @@ class AppveyorBuildAgent < Formula
           <string>#{prefix}/build-agent.stderr.log</string>
           <key>StandardOutPath</key>
           <string>#{prefix}/build-agent.stdout.log</string>
-          <key>UserName</key>
-          <string>appveyor</string>
-          <key>GroupName</key>
-          <string>staff</string>
         </dict>
       </plist>
     EOS
