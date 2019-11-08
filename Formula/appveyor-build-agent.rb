@@ -45,6 +45,11 @@ class AppveyorBuildAgent < Formula
           <key>ProgramArguments</key>
           <array>
           </array>
+          <key>EnvironmentVariables</key>
+          <dict>
+            <key>PATH</key>
+            <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+          </dict>
           <key>RunAtLoad</key>
           <true/>
           <key>WorkingDirectory</key>
