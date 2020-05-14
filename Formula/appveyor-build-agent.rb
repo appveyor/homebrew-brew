@@ -1,9 +1,9 @@
 class AppveyorBuildAgent < Formula
   desc "AppVeyor Build Agent - runs AppVeyor build on your server."
   homepage "https://www.appveyor.com"
-  url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.2881/appveyor-build-agent-7.0.2881-macos-x64.tar.gz"
-  version "7.0.2881"
-  sha256 "f4a0baf69aab0905ebdceb0d55068ca5dfbcf10fbd30520a0494c2850e4e73bc"
+  url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.2882/appveyor-build-agent-7.0.2882-macos-x64.tar.gz"
+  version "7.0.2882"
+  sha256 "c8b697201df9305c0e9816a7a592b36d5d31a98c5306939ac4acf4d3df6c13b2"
 
   def install
     # tune config file
