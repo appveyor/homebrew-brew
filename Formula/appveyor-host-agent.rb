@@ -50,7 +50,7 @@ class AppveyorHostAgent < Formula
   end
 
 
-  plist_options :startup => false
+  #plist_options :startup => false
 
   def plist
     <<~EOS
