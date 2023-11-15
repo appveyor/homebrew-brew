@@ -30,39 +30,48 @@ class AppveyorBuildAgent < Formula
 
   #plist_options :startup => true
 
-  def plist
-    <<~EOS
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-        <dict>
-          <key>KeepAlive</key>
-          <false/>
-          <key>Label</key>
-          <string>#{plist_name}</string>
-          <key>Program</key>
-          <string>#{prefix}/appveyor-build-agent</string>
-          <key>ProgramArguments</key>
-          <array>
-          </array>
-          <key>EnvironmentVariables</key>
-          <dict>
-            <key>PATH</key>
-            <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
-          </dict>
-          <key>RunAtLoad</key>
-          <true/>
-          <key>WorkingDirectory</key>
-          <string>#{prefix}</string>
-          <key>StandardErrorPath</key>
-          <string>#{prefix}/build-agent.stderr.log</string>
-          <key>StandardOutPath</key>
-          <string>#{prefix}/build-agent.stdout.log</string>
-        </dict>
-      </plist>
-    EOS
-  end
+  # def plist
+  #   <<~EOS
+  #     <?xml version="1.0" encoding="UTF-8"?>
+  #     <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+  #     <plist version="1.0">
+  #       <dict>
+  #         <key>KeepAlive</key>
+  #         <false/>
+  #         <key>Label</key>
+  #         <string>#{plist_name}</string>
+  #         <key>Program</key>
+  #         <string>#{prefix}/appveyor-build-agent</string>
+  #         <key>ProgramArguments</key>
+  #         <array>
+  #         </array>
+  #         <key>EnvironmentVariables</key>
+  #         <dict>
+  #           <key>PATH</key>
+  #           <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+  #         </dict>
+  #         <key>RunAtLoad</key>
+  #         <true/>
+  #         <key>WorkingDirectory</key>
+  #         <string>#{prefix}</string>
+  #         <key>StandardErrorPath</key>
+  #         <string>#{prefix}/build-agent.stderr.log</string>
+  #         <key>StandardOutPath</key>
+  #         <string>#{prefix}/build-agent.stdout.log</string>
+  #       </dict>
+  #     </plist>
+  #   EOS
+  # end
 
+  service do
+    run "#{var}/appveyor-build-agent"
+    keep_alive false
+    environment_variables PATH: "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+    log_path "#{var}/build-agent.stdout.log"
+    error_log_path "#{var}/build-agent.stderr.log"
+    run_at_load true
+  end
+  
   test do
     # `test do` will create, run in and delete a temporary directory.
     #
