@@ -50,42 +50,13 @@ class AppveyorHostAgent < Formula
   end
 
 
-  #plist_options :startup => false
-
-  # def plist
-  #   <<~EOS
-  #     <?xml version="1.0" encoding="UTF-8"?>
-  #     <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-  #     <plist version="1.0">
-  #       <dict>
-  #         <key>KeepAlive</key>
-  #         <false/>
-  #         <key>Label</key>
-  #         <string>#{plist_name}</string>
-  #         <key>Program</key>
-  #         <string>#{prefix}/appveyor-host-agent</string>
-  #         <key>ProgramArguments</key>
-  #         <array>
-  #         </array>
-  #         <key>RunAtLoad</key>
-  #         <true/>
-  #         <key>WorkingDirectory</key>
-  #         <string>#{var}/appveyor/host-agent/</string>
-  #         <key>StandardErrorPath</key>
-  #         <string>#{var}/appveyor/host-agent/host-agent.stderr.log</string>
-  #         <key>StandardOutPath</key>
-  #         <string>#{var}/appveyor/host-agent/host-agent.stdout.log</string>
-  #       </dict>
-  #     </plist>
-  #   EOS
-  # end
-
   service do
-    run "#{var}/appveyor-host-agent"
-    keep_alive false
+    run "#{opt_prefix}/appveyor-host-agent"
+    keep_alive successful_exit: true
     log_path "#{var}/appveyor/host-agent/host-agent.stdout.log"
     error_log_path "#{var}/appveyor/host-agent/host-agent.stderr.log"
-    run_at_load true
+    working_dir "#{var}/appveyor/host-agent/"
+    run_at_load false
   end
 
   test do
