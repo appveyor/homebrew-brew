@@ -1,9 +1,9 @@
 class AppveyorBuildAgent < Formula
   desc "AppVeyor Build Agent - runs AppVeyor build on your server."
   homepage "https://www.appveyor.com"
-  url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.3212/appveyor-build-agent-7.0.3212-macos-x64.tar.gz"
-  version "7.0.3212"
-  sha256 "ca208dbf24f0e1c05206fe65f8b8b9c59c23fde132b7b902726996faf9a91973"
+  url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.3292/appveyor-build-agent-7.0.3292-macos-x64.tar.gz"
+  version "7.0.3292"
+  sha256 "6c71a6a97d4a3fdd7b65d06e0302a7166a40b5d3ed52b485bd1bbbcd28c70397"
 
   def install
     # tune config file
@@ -27,40 +27,12 @@ class AppveyorBuildAgent < Formula
     EOS
   end
 
-
-  plist_options :startup => true
-
-  def plist
-    <<~EOS
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-        <dict>
-          <key>KeepAlive</key>
-          <false/>
-          <key>Label</key>
-          <string>#{plist_name}</string>
-          <key>Program</key>
-          <string>#{prefix}/appveyor-build-agent</string>
-          <key>ProgramArguments</key>
-          <array>
-          </array>
-          <key>EnvironmentVariables</key>
-          <dict>
-            <key>PATH</key>
-            <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
-          </dict>
-          <key>RunAtLoad</key>
-          <true/>
-          <key>WorkingDirectory</key>
-          <string>#{prefix}</string>
-          <key>StandardErrorPath</key>
-          <string>#{prefix}/build-agent.stderr.log</string>
-          <key>StandardOutPath</key>
-          <string>#{prefix}/build-agent.stdout.log</string>
-        </dict>
-      </plist>
-    EOS
+  service do
+    run [prefix/"appveyor-build-agent"]
+    keep_alive true
+    working_dir prefix
+    log_path prefix/"build-agent.stdout.log"
+    error_log_path prefix/"build-agent.stderr.log"
   end
 
   test do
