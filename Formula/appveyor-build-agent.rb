@@ -15,6 +15,8 @@ class AppveyorBuildAgent < Formula
 
     # copy all files
     cp_r ".", prefix.to_s
+
+    @install_prefix = prefix.to_s
   end
 
   def caveats
@@ -27,14 +29,12 @@ class AppveyorBuildAgent < Formula
     EOS
   end
 
-  install_prefix = prefix.to_s
-
   service do
-    run [install_prefix/"appveyor-build-agent"]
+    run [@install_prefix/"appveyor-build-agent"]
     keep_alive true
-    working_dir install_prefix
-    log_path install_prefix/"build-agent.stdout.log"
-    error_log_path install_prefix/"build-agent.stderr.log"
+    working_dir @install_prefix
+    log_path @install_prefix/"build-agent.stdout.log"
+    error_log_path @install_prefix/"build-agent.stderr.log"
   end
 
   test do
