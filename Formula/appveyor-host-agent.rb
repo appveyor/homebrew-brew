@@ -1,9 +1,9 @@
 class AppveyorHostAgent < Formula
   desc "AppVeyor Host Agent - runs AppVeyor builds on your server."
   homepage "https://www.appveyor.com"
-  url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.3212/appveyor-host-agent-7.0.3212-macos-x64.tar.gz"
-  version "7.0.3212"
-  sha256 "40e6df6a367c5b96351a466e58d828dcd12d739e07e56679964ac0a9683755f9"
+  url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.3292/appveyor-host-agent-7.0.3292-macos-x64.tar.gz"
+  version "7.0.3292"
+  sha256 "2d671e8c97af903c58a78e3c5c8b4bce30d202138e06ad14de36e10672b04105"
 
   def install
     # copy all files
