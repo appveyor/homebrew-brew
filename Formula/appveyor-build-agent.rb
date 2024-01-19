@@ -23,16 +23,18 @@ class AppveyorBuildAgent < Formula
 
           sudo brew services start appveyor-build-agent
 
-      AppVeyor Build Agent configuration file: #{prefix}/appsettings.json
+      AppVeyor Build Agent configuration file: #{HOMEBREW_PREFIX}/appsettings.json
     EOS
   end
 
+  install_prefix = prefix.to_s
+
   service do
-    run [prefix/"appveyor-build-agent"]
+    run [install_prefix/"appveyor-build-agent"]
     keep_alive true
-    working_dir prefix
-    log_path prefix/"build-agent.stdout.log"
-    error_log_path prefix/"build-agent.stderr.log"
+    working_dir install_prefix
+    log_path install_prefix/"build-agent.stdout.log"
+    error_log_path install_prefix/"build-agent.stderr.log"
   end
 
   test do
