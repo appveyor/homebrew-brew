@@ -2,7 +2,7 @@ class AppveyorBuildAgent < Formula
   desc "AppVeyor Build Agent - runs AppVeyor build on your server."
   homepage "https://www.appveyor.com"
   url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.3292/appveyor-build-agent-7.0.3292-macos-x64.tar.gz"
-  version "7.0.3292"
+  version "7.0.3293"
   sha256 "6c71a6a97d4a3fdd7b65d06e0302a7166a40b5d3ed52b485bd1bbbcd28c70397"
 
   def install
@@ -15,8 +15,6 @@ class AppveyorBuildAgent < Formula
 
     # copy all files
     cp_r ".", prefix.to_s
-
-    @install_prefix = prefix.to_s
   end
 
   def caveats
@@ -25,7 +23,7 @@ class AppveyorBuildAgent < Formula
 
           sudo brew services start appveyor-build-agent
 
-      AppVeyor Build Agent configuration file: #{HOMEBREW_PREFIX}/appsettings.json
+      AppVeyor Build Agent configuration file: appsettings.json
     EOS
   end
 
