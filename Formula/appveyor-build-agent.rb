@@ -2,7 +2,7 @@ class AppveyorBuildAgent < Formula
   desc "AppVeyor Build Agent - runs AppVeyor build on your server."
   homepage "https://www.appveyor.com"
   url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.3293/appveyor-build-agent-7.0.3293-macos-x64.tar.gz"
-  version "7.0.3294"
+  version "7.0.3293"
   sha256 "61d2c819d3f2eebb8e849136c38b20410a1ba4238808e878571c686e45a30ac9"
 
   def install
@@ -15,6 +15,10 @@ class AppveyorBuildAgent < Formula
 
     # copy all files
     cp_r ".", prefix.to_s
+  end
+
+  def post_install
+    (var/"log").mkpath
   end
 
   def caveats
@@ -31,8 +35,8 @@ class AppveyorBuildAgent < Formula
     run [opt_prefix/"appveyor-build-agent"]
     keep_alive true
     working_dir opt_prefix
-    log_path var/"log/build-agent.log"
-    error_log_path var/"log/build-agent.log"
+    log_path var/"log/appveyor-build-agent.log"
+    error_log_path var/"log/appveyor-build-agent.log"
   end
 
   test do
