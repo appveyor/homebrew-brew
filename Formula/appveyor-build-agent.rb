@@ -2,7 +2,7 @@ class AppveyorBuildAgent < Formula
   desc "AppVeyor Build Agent - runs AppVeyor build on your server."
   homepage "https://www.appveyor.com"
   url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.3293/appveyor-build-agent-7.0.3293-macos-x64.tar.gz"
-  version "7.0.3293"
+  version "7.0.3294"
   sha256 "61d2c819d3f2eebb8e849136c38b20410a1ba4238808e878571c686e45a30ac9"
 
   def install
@@ -23,15 +23,16 @@ class AppveyorBuildAgent < Formula
 
           sudo brew services start appveyor-build-agent
 
-      AppVeyor Build Agent configuration file: appsettings.json
+      AppVeyor Build Agent configuration file: #{opt_prefix}/appsettings.json
     EOS
   end
 
   service do
-    run ["appveyor-build-agent"]
+    run [opt_prefix/"appveyor-build-agent"]
     keep_alive true
-    log_path "build-agent.stdout.log"
-    error_log_path "build-agent.stderr.log"
+    working_dir opt_prefix
+    log_path var/"log/build-agent.log"
+    error_log_path var/"log/build-agent.log"
   end
 
   test do
