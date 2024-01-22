@@ -30,11 +30,10 @@ class AppveyorBuildAgent < Formula
   end
 
   service do
-    run ["#{@install_prefix}/appveyor-build-agent"]
+    run ["appveyor-build-agent"]
     keep_alive true
-    working_dir "#{@install_prefix}"
-    log_path "#{@install_prefix}/build-agent.stdout.log"
-    error_log_path "#{@install_prefix}/build-agent.stderr.log"
+    log_path "build-agent.stdout.log"
+    error_log_path "build-agent.stderr.log"
   end
 
   test do
