@@ -35,6 +35,7 @@ class AppveyorBuildAgent < Formula
     run [opt_prefix/"appveyor-build-agent"]
     keep_alive true
     working_dir opt_prefix
+    environment_variables PATH: "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
     log_path var/"log/appveyor-build-agent.log"
     error_log_path var/"log/appveyor-build-agent.log"
   end
