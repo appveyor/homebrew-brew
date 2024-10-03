@@ -2,13 +2,10 @@ class AppveyorHostAgent < Formula
   desc "AppVeyor Host Agent - runs AppVeyor builds on your server."
   homepage "https://www.appveyor.com"
   url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.3292/appveyor-host-agent-7.0.3292-macos-x64.tar.gz"
-  version "7.0.3292"
+  version "7.0.3293"
   sha256 "2d671e8c97af903c58a78e3c5c8b4bce30d202138e06ad14de36e10672b04105"
 
   def install
-    # copy all files
-    cp_r ".", prefix.to_s
-
     # tune config file
     unless ENV.key?("HOMEBREW_APPVEYOR_URL")
       opoo "HOMEBREW_APPVEYOR_URL variable not set. Will use default value 'https://ci.appveyor.com'"
@@ -22,8 +19,9 @@ class AppveyorHostAgent < Formula
     if ENV.key?("HOMEBREW_HOST_AUTH_TKN")
       inreplace "appsettings.json", /\[AUTHORIZATION_TOKEN\]/, ENV["HOMEBREW_HOST_AUTH_TKN"]
     end
-    (etc/"opt/appveyor/host-agent").install "appsettings.json"
-    rm "#{prefix}/appsettings.json"
+
+    # copy all files
+    cp_r ".", prefix.to_s
   end
 
   def post_install
@@ -49,35 +47,13 @@ class AppveyorHostAgent < Formula
     no_token_caveat unless ENV.key?("HOMEBREW_HOST_AUTH_TKN")
   end
 
-
-  #plist_options :startup => false
-
-  def plist
-    <<~EOS
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-        <dict>
-          <key>KeepAlive</key>
-          <false/>
-          <key>Label</key>
-          <string>#{plist_name}</string>
-          <key>Program</key>
-          <string>#{prefix}/appveyor-host-agent</string>
-          <key>ProgramArguments</key>
-          <array>
-          </array>
-          <key>RunAtLoad</key>
-          <true/>
-          <key>WorkingDirectory</key>
-          <string>#{var}/appveyor/host-agent/</string>
-          <key>StandardErrorPath</key>
-          <string>#{var}/appveyor/host-agent/host-agent.stderr.log</string>
-          <key>StandardOutPath</key>
-          <string>#{var}/appveyor/host-agent/host-agent.stdout.log</string>
-        </dict>
-      </plist>
-    EOS
+  service do
+    run [opt_prefix/"appveyor-host-agent"]
+    keep_alive true
+    working_dir opt_prefix
+    environment_variables PATH: "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+    log_path var/"log/appveyor-host-agent.log"
+    error_log_path var/"log/appveyor-host-agent.log"
   end
 
   test do
