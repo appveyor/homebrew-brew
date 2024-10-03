@@ -1,9 +1,15 @@
 class AppveyorHostAgent < Formula
   desc "AppVeyor Host Agent - runs AppVeyor builds on your server."
   homepage "https://www.appveyor.com"
-  url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.3292/appveyor-host-agent-7.0.3292-macos-x64.tar.gz"
-  version "7.0.3293"
-  sha256 "2d671e8c97af903c58a78e3c5c8b4bce30d202138e06ad14de36e10672b04105"
+  version "7.0.3340"
+
+  if Hardware::CPU.arm?
+    url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.3340/appveyor-host-agent-7.0.3340-macos-arm64.tar.gz"
+    sha256 '2d91759b73a532d2e6a433e4cfaf3d12927eac5a5fdd47dadcdce4e388231dc1'
+  else
+    url "https://appveyordownloads.blob.core.windows.net/appveyor/7.0.3340/appveyor-host-agent-7.0.3340-macos-x64.tar.gz"
+    sha256 '7d4f5a9a2917063d72d15c0fe73560cfc22bffe936e97013e25f082c62512b2b'
+  end
 
   def install
     # tune config file
